@@ -1,0 +1,12 @@
+add_items:
+    manual personal nuber:
+    
+        <p id="login">
+            {{form.numb.label(class_="fadeIn first")}}<br>
+            {{form.numb(class="fadeIn first")}}<br>
+            {% for error in form.numb.errors %}
+            <span style="color:red;">[{{error}}]</span>
+            {% endfor %}
+        </p>
+
+================================================================
