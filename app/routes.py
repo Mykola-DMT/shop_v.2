@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from app import app
 from flask import render_template,flash, redirect, request
-from app.forms import AddForm
+from app.forms import AddForm,SearchForm
 from datetime import date,datetime
 from app.db_setup import init_db, db_session
 from app.models import Item
@@ -60,6 +60,33 @@ def clear_data():
     for table in reversed(meta.sorted_tables):
         db.session.execute(table.delete())
     db.session.commit()
+
+@app.route('/search',methods=['GET','POST'])
+def search():
+    search=SearchForm(request.form)
+    if request.method=='POST':
+        return search_result(search)
+    return render_template('search.html')
+
+@app.route('/result')
+def result(search):
+    results=[]
+    search_string=search.data['search']
+
+    if search.data['search']=='':
+        qry=db.session.query(Item)
+        results=qry.all()
+    if not results:
+        flash('Not found!')
+        return redirect('/')
+    
+    else:
+        table=Result(results)
+        table.border=True
+        totalprice=0
+        for i in results:
+            totalprice+=i.price
+        return render_template('results.html',table=table,totalprice=totalprice)
 
 @app.route('/showitems', methods=['GET','POST'])
 def showitems():

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField,SubmitField,IntegerField,SelectMultipleField,BooleanField
+from wtforms import StringField,SubmitField,IntegerField,SelectField,SelectMultipleField,BooleanField
 from wtforms.validators import DataRequired
 
 class AddForm(FlaskForm):
@@ -12,3 +12,11 @@ class AddForm(FlaskForm):
     # day=DateTimeField('Date')
     # isold=BooleanField('Sold')
     submit=SubmitField('Add')
+
+class SearchForm(FlaskForm):
+    param_types=[('Type','Type'),
+    ('Name','Name'),
+    ('Size','Size'),
+    ('Price','Price')]
+    select=SelectField('Search for:',choices=param_types)
+    search=StringField('',validators=[DataRequired()])
