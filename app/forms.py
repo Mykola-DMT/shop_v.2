@@ -18,5 +18,5 @@ class SearchForm(FlaskForm):
     ('Name','Name'),
     ('Size','Size'),
     ('Price','Price')]
-    select=SelectField('Search for:',choices=param_types)
-    search=StringField('',validators=[DataRequired()])
+    select=SelectField(u'Search for:',choices=param_types)
+    search=StringField(u'',validators=[DataRequired()])
