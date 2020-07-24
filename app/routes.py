@@ -63,10 +63,11 @@ def clear_data():
 
 @app.route('/search',methods=['GET','POST'])
 def search():
+    form=SearchForm()
     search=SearchForm(request.form)
     if request.method=='POST':
         return search_result(search)
-    return render_template('search.html')
+    return render_template('search.html',form=form)
 
 @app.route('/result')
 def result(search):
