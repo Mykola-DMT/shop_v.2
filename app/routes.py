@@ -72,11 +72,26 @@ def search():
 @app.route('/result')
 def result(search):
     results=[]
+    #search_type=search.get('select')
     search_string=search.data['search']
 
     if search.data['search']=='':
         qry=db.session.query(Item)
         results=qry.all()
+    else:
+        select=search.data['select']
+        items=[]
+        qry=db.session.query(Item)
+        items=qry.all()
+        for i in items:
+            if select=='Type':
+                if i.typename == search_string:
+                    results.append(i)
+            if select=="Name":
+                if i.itemname = =search_string:
+                    results.append(i)
+            if i.Type==search_string:
+                results.append(i)
     if not results:
         flash('Not found!')
         return redirect('/')
@@ -87,7 +102,7 @@ def result(search):
         totalprice=0
         for i in results:
             totalprice+=i.price
-        return render_template('results.html',table=table,totalprice=totalprice)
+        return render_template('result.html',table=table,totalprice=totalprice)
 
 @app.route('/showitems', methods=['GET','POST'])
 def showitems():
