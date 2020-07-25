@@ -19,17 +19,27 @@
     {% endif %}
 {% endwith %}
 
-{{form.hidden_tag()}}
-<p>
-  {{form.select.label}}
-  {{form.select}}
-</p>
-<p>
-  {{form.search.label}}
-  {{form.search}}
-  {% for error in form.search.errors %}
-  <span style="color:red">[{{error}}]</span>
-  {% endfor %}
-</p>
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+      <form action="" method='post' novalidate>
 
+        {{form.hidden_tag()}}
+        <p> 
+          {{form.select.label}}
+          {{form.select}}
+        </p>
+        <p>
+          {{form.search.label(class_="fadeIn first")}}
+          {{form.search(class= "fadeIn first")}}
+          {% for error in form.search.errors %}
+          <span style="color:red">[{{error}}]</span>
+          {% endfor %}
+        </p>
+        <p class="fadeIn second">
+          {{form.submit()}}
+        </p>
+
+      </form>
+  </div>
+</div>
 {% endblock %}
