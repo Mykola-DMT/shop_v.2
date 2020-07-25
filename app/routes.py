@@ -66,7 +66,7 @@ def search():
     form=SearchForm()
     search=SearchForm(request.form)
     if request.method=='POST':
-        return search_result(search)
+        return result(search)
     return render_template('search.html',form=form)
 
 @app.route('/result')
