@@ -17,7 +17,8 @@ class SearchForm(FlaskForm):
     param_types=[('Type','Type'),
     ('Name','Name'),
     ('Size','Size'),
-    ('Price','Price')]
+    ('Price','Price'),
+    ('Date','Date')]
     select=SelectField(u'Search for:',choices=param_types)
     search=StringField(u'',validators=[DataRequired()])
     submit=SubmitField('Search')

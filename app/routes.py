@@ -17,7 +17,7 @@ def index():
 @app.route('/additems', methods=['GET','POST'])
 def additems():
     form = AddForm()
-    if request.method == 'POST' and form.validate():
+    if request.method=='POST' and form.validate():
         #save item:
         item = Item()
         save_changes(item, form, new=True)
@@ -31,7 +31,8 @@ def save_changes(item,form, new=False):
     item.itemname=form.itemname.data
     item.size_i=form.size_i.data
     item.price=form.price.data
-    item.day=date.today()
+    if new:
+        item.day=date.today()
     #item.numb=form.numb.data
     #item.isold=False
 
@@ -87,11 +88,20 @@ def result(search):
             if select=='Type':
                 if i.typename == search_string:
                     results.append(i)
-            if select=="Name":
-                if i.itemname = =search_string:
+            elif select=='Name':
+                if i.itemname == search_string:
                     results.append(i)
-            if i.Type==search_string:
-                results.append(i)
+            elif select=='Size':
+                if i.size_i==int(search_string):
+                    results.append(i)
+            elif select == 'Price':
+                if i.price == int(search_string):
+                    results.append(i)
+            elif select == 'Date':
+                if search_string in str(i.day):
+                    results.append(i)
+            # if i.Type==search_string:
+            #     results.append(i)
     if not results:
         flash('Not found!')
         return redirect('/')
@@ -108,10 +118,10 @@ def result(search):
 def showitems():
     items=[]
     #items_string=AddForm.data
-    qry=db.session.query(Item)
-    items=qry.all()
+    qry = db.session.query(Item)
+    items = qry.all()
     table = Result(items)
-    table.border=True
+    table.border = True
     totaltoday = 0
     for i in items:
         if i.day == date.today():
