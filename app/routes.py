@@ -11,9 +11,9 @@ from app.tables import Result
 @app.route('/')
 @app.route('/index')
 def index():
-    today = {'datetoday':date.today()}
-    today_d=date.today()
-    items=Item.query.filter(Item.day==today_d).all()
+    
+    today=date.today()
+    items=Item.query.filter(Item.day==today).all()
     table=Result(items)
     table.border = True
     totaltoday = 0
@@ -22,7 +22,7 @@ def index():
         if i.day == date.today():
             totaltoday+=i.price
             count+=1
-    return render_template('index.html',table=table,today=today_d,total=totaltoday,count=count)
+    return render_template('index.html',table=table,today=today,total=totaltoday,count=count)
 
 @app.route('/additems', methods=['GET','POST'])
 def additems():
