@@ -12,7 +12,17 @@ from app.tables import Result
 @app.route('/index')
 def index():
     today = {'datetoday':date.today()}
-    return render_template('index.html',today=today)
+    today_d=date.today()
+    items=Item.query.filter(Item.day==today_d).all()
+    table=Result(items)
+    table.border = True
+    totaltoday = 0
+    count=0
+    for i in items:
+        if i.day == date.today():
+            totaltoday+=i.price
+            count+=1
+    return render_template('index.html',table=table,today=today_d,total=totaltoday,count=count)
 
 @app.route('/additems', methods=['GET','POST'])
 def additems():
@@ -22,7 +32,6 @@ def additems():
         item = Item()
         save_changes(item, form, new=True)
         flash('Item added successfully')
-        flash(form.validate())
         return redirect('/index')
     return render_template('additems.html', form=form)
 
@@ -84,21 +93,27 @@ def result(search):
         items=[]
         qry=db.session.query(Item)
         items=qry.all()
+        count_in_date=0
         for i in items:
             if select=='Type':
                 if i.typename == search_string:
                     results.append(i)
+                    count_in_date += 1
             elif select=='Name':
                 if i.itemname == search_string:
                     results.append(i)
+                    count_in_date += 1
             elif select=='Size':
                 if i.size_i==int(search_string):
                     results.append(i)
+                    count_in_date += 1
             elif select == 'Price':
                 if i.price == int(search_string):
                     results.append(i)
+                    count_in_date += 1
             elif select == 'Date':
                 if search_string in str(i.day):
+                    count_in_date += 1
                     results.append(i)
             # if i.Type==search_string:
             #     results.append(i)
@@ -112,7 +127,7 @@ def result(search):
         totalprice=0
         for i in results:
             totalprice+=i.price
-        return render_template('result.html',table=table,totalprice=totalprice)
+        return render_template('result.html',table=table,totalprice=totalprice,count_in_date=count_in_date)
 
 @app.route('/showitems', methods=['GET','POST'])
 def showitems():

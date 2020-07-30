@@ -2,11 +2,16 @@
 
 {% block content %}
     <h1>Shop Graica</h1>
-    <div class='time'><p>Today is:{{today.datetoday}}</p></div>
+    <div class='time'><p>Today is:{{today}}</p></div>
     <style>
         .time{
             align-items: center;
             font-style: italic;
         }
     </style>
+    <p>Today:</p>
+    {{table}}
+
+    <p>Total price = {{total}}</p>
+    <p>Count = {{count}}</p>
 {% endblock %}
