@@ -51,6 +51,15 @@ def save_changes(item,form, new=False):
     db.session.commit()
 
 @app.route('/item/<int:id>', methods=['GET','POST'])
+def delete(id):
+    qry = db.session.query(Item).filter(Item.id==id)
+    item = qry.first()
+    db.session.delete(item)
+    db.session.commit()
+    flash('Deleted succesfuly!')
+    return redirect('/')
+
+@app.route('/item/<int:id>', methods=['GET','POST'])
 def edit(id):
     qry=db.session.query(Item).filter(Item.id==id)
     items=qry.first()

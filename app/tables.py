@@ -1,7 +1,7 @@
-from flask_table import Table, Col, LinkCol
+from flask_table import Table, Col, LinkCol, ButtonCol
 
 class Result(Table):
-    id=Col('Id')
+    id=Col('Id', show=False)
     #numb=Col('Number')
     typename=Col('Type')
     itemname=Col('Name')
@@ -9,4 +9,5 @@ class Result(Table):
     price=Col('Price')
     day=Col('Date')
     edit=LinkCol('Edit','edit',url_kwargs=dict(id='id'))
+    dalete=ButtonCol('Delete','delete',url_kwargs=dict(id='id'))
     #isold=Col('Is sold')

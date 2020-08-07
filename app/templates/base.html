@@ -5,13 +5,15 @@
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}"/> 
     </head>
     <body>
-        <div>
+        <nav>
             Shop: 
             <a href="/index">Home</a>
             <a href="{{ url_for('additems') }}">Add</a>
             <a href="{{url_for('showitems')}}">Show</a>
             <a href="{{url_for ('search')}}">Search</a>
-        </div>
+            <div class="animation start-home"></div>
+        
+        </nav>
         <hr>
         <div class="container">
             {% block content %}{% endblock %}
