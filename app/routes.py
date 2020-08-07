@@ -11,7 +11,6 @@ from app.tables import Result
 @app.route('/')
 @app.route('/index')
 def index():
-    
     today=date.today()
     items=Item.query.filter(Item.day==today).all()
     table=Result(items)
