@@ -97,7 +97,9 @@ html {
     left: 310px;
     background-color: #9b59b6;
   }
-  
+  .active{
+    background-color: #3498db;
+  }
   
   
   /* STRUCTURE */
