@@ -170,6 +170,4 @@ def showitems():
     # con = pymysql.connect(typename=typename,itemname=itemname,size_i=size_i,price=price,db=db, use_unicode=True, charset='utf8')
     # #con = pymysql.connect(use_unicode=True, charset='utf8')
     # cur = con.cursor()
-    # cur.execute("SELECT * FROM dataset")
-    # data = cur.fetchall()   
-    # return render_template("showitems.html", value=data)
+
