@@ -168,6 +168,5 @@ def showitems():
     # price=700
     # db='dataset'
     # con = pymysql.connect(typename=typename,itemname=itemname,size_i=size_i,price=price,db=db, use_unicode=True, charset='utf8')
-    # #con = pymysql.connect(use_unicode=True, charset='utf8')
-    # cur = con.cursor()
+    
 
