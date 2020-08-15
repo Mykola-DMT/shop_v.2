@@ -12,7 +12,7 @@ class Item(db.Model):
     price=db.Column(db.Integer)
     day=db.Column(db.Date)
     user_id=db.Column(db.Integer, db.ForeignKey('user.id'))
-    #isold=db.Column(db.Boolean)
+    isold=db.Column(db.Boolean)
 
     def __repr__(self):
         return '<Item {} {} size= {} price= {}>'.format(self.typename,self.itemname,self.size_i,self.price)
