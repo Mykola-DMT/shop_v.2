@@ -7,7 +7,7 @@ from app.db_setup import init_db, db_session
 from app.models import Item, User
 from app import db
 from app.tables import Result
-from flask_login import current_user, login_user
+from flask_login import current_user, login_user, logout_user, login_required
 
 
 @app.route('/login', methods=['GET','POST'])
@@ -21,11 +21,20 @@ def login():
             flash('Invalid username or password')
             return redirect (url_for('login'))
         login_user(user, remember=form.remember_me.data)
-        return redirect(url_for('index'))
+        next_page = request.args.get('next')
+        if not next_page or url_parse(next_page).netloc != '':
+            next_page=url_for('index')
+        return redirect(next_page)
     return render_template('login.html',title='Sign In', form=form)
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
 
 @app.route('/')
 @app.route('/index')
+@login_required
 def index():
     today=date.today()
     items=Item.query.filter(Item.day==today).all()
@@ -40,6 +49,7 @@ def index():
     return render_template('index.html',table=table,today=today,total=totaltoday,count=count)
 
 @app.route('/additems', methods=['GET','POST'])
+@login_required
 def additems():
     form = AddForm()
     if request.method=='POST' and form.validate():
@@ -96,6 +106,7 @@ def clear_data():
     db.session.commit()
 
 @app.route('/search',methods=['GET','POST'])
+@login_required
 def search():
     form=SearchForm()
     search=SearchForm(request.form)
@@ -154,6 +165,7 @@ def result(search):
         return render_template('result.html',table=table,totalprice=totalprice,count_in_date=count_in_date)
 
 @app.route('/showitems', methods=['GET','POST'])
+@login_required
 def showitems():
     items=[]
     #items_string=AddForm.data
