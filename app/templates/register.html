@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Registration</h1>
+
+    <div class="wrapper fadeInDown">
+        <div id ="formContent">
+            <form action="" method="">
+                {{ form.hidden_tag() }}
+                <p id="login" class="fadeIn second">
+                    {{ form.username.label(class_="fadeIn first") }}<br>
+                    {{ form.username(class_="fadeIn first") }}<br>
+                    {% for error in form.username.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p id="login" class="fadeIn second">
+                    {{ form.email.label(class_="fadeInsecond") }}<br>
+                    {{ form.email(class_="fadeIn second") }}<br>
+                    {% for error in form.email.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p id="login" class="fadeIn second">
+                    {{ form.password.label(class_="fadeIn third") }}<br>
+                    {{ form.password(class_="fadeIn third") }}<br>
+                    {% for error in form.password.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p id="login" class="fadeIn second">
+                    {{ form.password2.label(class_="fadeIn fourth") }}<br>
+                    {{ form.password2(class_="fadeIn fourth") }}<br>
+                    {% for error in form.password2.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p class="fadeIn fourth">
+                    {{ form.submit() }}
+                </p>
+            </form>
+        </div>
+    </div>
+{% endblock %}        
