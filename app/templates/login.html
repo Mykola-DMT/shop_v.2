@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Log In</h1>
+    <div class ="wrapper fadeInDown">
+        <div id ="formContent">
+            <form action ="" method="">
+                {{ form.hidden_tag() }}
+                <p>
+                    {{ form.username.label(class_="fadeIn first") }}<br>
+                    {{ form.username(class_="fadeIn first") }}<br>
+                    {% for error in form.username.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.password.label(class_="fadeIn third") }}<br>
+                    {{ form.password(class_="fadeIn third") }}<br>
+                    {% for error in form.password.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{form.remember_me()}}
+                    {{form.remember_me.label}}
+                </p>
+                <p class="fadeIn fourth">
+                    {{ form.submit() }}
+                </p>
+            </form>
+            <p>New User? <a href="{{ url_for('register') }}">Clic to register!</a></p>
+        </div>
+    </div>
+{% endblock %}

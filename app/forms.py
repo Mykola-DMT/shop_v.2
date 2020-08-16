@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField,SubmitField,IntegerField,SelectField,SelectMultipleField,BooleanField
+from wtforms import StringField,SubmitField,IntegerField,SelectField,SelectMultipleField,BooleanField,PasswordField
 from wtforms.validators import DataRequired, ValidationError, Email,EqualTo
 from app.models import User
 
@@ -23,6 +23,12 @@ class SearchForm(FlaskForm):
     select=SelectField(u'Search for:',choices=param_types)
     search=StringField(u'',validators=[DataRequired()])
     submit=SubmitField('Search')
+
+class LoginForm(FlaskForm):
+    usernmae=StringField('Username', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    remember_me=BooleanField('Remember Me')
+    submit = SubmitField('Sign In')
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
