@@ -31,7 +31,7 @@ def login():
 def register():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
-    form= RegistrationForm()
+    form = RegistrationForm()
     if form.validate_on_submit():
         user=User(username=form.username.data,email=form.email.data)
         user.set_password(form.password.data)
@@ -39,7 +39,7 @@ def register():
         db.session.commit()
         flash('You registered!')
         return redirect(url_for('index'))
-    return  render_template('register.html',form)
+    return  render_template('register.html',form=form)
 
 @app.route('/logout')
 def logout():
@@ -48,7 +48,7 @@ def logout():
 
 @app.route('/')
 @app.route('/index')
-@login_required
+#@login_required
 def index():
     today=date.today()
     items=Item.query.filter(Item.day==today).all()

@@ -14,7 +14,7 @@
             <a href="{{url_for ('search')}}">Search</a>
             {% if current_user.is_anonymous %}
             <a href ="{{ url_for('login') }}">Login</a>
-            {{% else %}}
+            {% else %}
             <a href="{{ url_for('logout') }}">Logout</a>
             {% endif %}
         </nav>
