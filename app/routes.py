@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from app import app
-from flask import render_template,flash, redirect, request
+from flask import render_template,flash, redirect, request, url_for
 from app.forms import AddForm,SearchForm,RegistrationForm,LoginForm
 from datetime import date,datetime
 from app.db_setup import init_db, db_session
