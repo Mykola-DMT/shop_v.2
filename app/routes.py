@@ -53,15 +53,17 @@ def logout():
 #@login_required
 def index():
     today=date.today()
-    items=Item.query.filter(Item.day==today).all()
+    items=[]
+    count=0
+    totaltoday = 0
+    if current_user.is_authenticated:
+        items=Item.query.filter(Item.day==today).all()
+        for i in items:
+            if i.day == date.today():
+                totaltoday+=i.price
+                count+=1
     table=Result(items)
     table.border = True
-    totaltoday = 0
-    count=0
-    for i in items:
-        if i.day == date.today():
-            totaltoday+=i.price
-            count+=1
     return render_template('index.html',table=table,today=today,total=totaltoday,count=count)
 
 @app.route('/additems', methods=['GET','POST'])
