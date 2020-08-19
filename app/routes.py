@@ -84,7 +84,7 @@ def save_changes(item,form, new=False):
     if new:
         item.day=date.today()
     #item.numb=form.numb.data
-    #item.isold=False
+    item.isold=False
 
     if new:
         db.session.add(item)
