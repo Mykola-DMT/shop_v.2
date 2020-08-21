@@ -58,12 +58,13 @@ def index():
     totaltoday = 0
     if current_user.is_authenticated:
         # items=Item.query.filter(Item.day==today).all()
-        items= current_user.Item.query.filter(Item.day==today).all()
+        items_all= current_user.items
         
-        for i in items:
+        for i in items_all:
             if i.day == date.today():
                 totaltoday+=i.price
                 count+=1
+                items.append(i)
 
     table=Result(items)
     table.border = True
@@ -86,6 +87,7 @@ def save_changes(item,form, new=False):
     item.itemname=form.itemname.data
     item.size_i=form.size_i.data
     item.price=form.price.data
+    item.author=current_user
     if new:
         item.day=date.today()
     #item.numb=form.numb.data
@@ -142,13 +144,15 @@ def result(search):
     search_string=search.data['search']
 
     if search.data['search']=='':
-        qry=db.session.query(Item)
-        results=qry.all()
+        # qry=db.session.query(Item)
+        # results=qry.all()
+        items=current_user.items
     else:
         select=search.data['select']
         items=[]
-        qry=db.session.query(Item)
-        items=qry.all()
+        #qry=db.session.query(Item)
+        #items=qry.all()
+        items=current_user.items
         count_in_date=0
         for i in items:
             if select=='Type':
@@ -189,9 +193,10 @@ def result(search):
 @login_required
 def showitems():
     items=[]
-    #items_string=AddForm.data
-    qry = db.session.query(Item)
-    items = qry.all()
+    
+    #qry = db.session.query(Item)
+    #items = qry.all()
+    items=current_user.items
     table = Result(items)
     table.border = True
     totaltoday = 0
