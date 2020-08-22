@@ -10,5 +10,5 @@ class Result(Table):
     day=Col('Date')
     isold=BoolCol('Sold')
     edit=LinkCol('Edit','edit',url_kwargs=dict(id='id'))
-    dalete=ButtonCol('Delete','delete',url_kwargs=dict(id='id'))
+    #dalete=ButtonCol('Delete','delete',url_kwargs=dict(id='id'))
     #isold=Col('Is sold')

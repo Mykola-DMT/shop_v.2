@@ -20,7 +20,7 @@ def login():
         
         if user is None or not user.check_password(form.password.data):
             flash('Invalid username or password')
-            return redirect(url_for('index'))
+            return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
         # next_page = request.args.get('next')
         # if not next_page or url_parse(next_page).netloc != '':
@@ -98,14 +98,13 @@ def save_changes(item,form, new=False):
 
     db.session.commit()
 
-@app.route('/item/<int:id>', methods=['GET','POST'])
+#@app.route('/edit/<int:id>', methods=['GET','DELETE'])
 def delete(id):
     qry = db.session.query(Item).filter(Item.id==id)
     item = qry.first()
     db.session.delete(item)
-    db.session.commit()
-    flash('Deleted succesfuly!')
-    return redirect('/')
+    db.session.commit() 
+    #return redirect('/')
 
 @app.route('/item/<int:id>', methods=['GET','POST'])
 def edit(id):
@@ -113,11 +112,17 @@ def edit(id):
     items=qry.first()
     if items:
         form = AddForm(formdata=request.form, obj=items)
-        if request.method=='POST'and form.validate():
-            #save edited
-            save_changes(items,form)
-            flash('Edited succesfuly!')
-            return redirect('/')
+        if request.method=='POST':
+            if request.form.get('delete'):
+                delete(id)
+                flash('Deleted succesfuly!')
+                return redirect('/')
+            elif form.validate():
+                #save edited
+                save_changes(items,form)
+                flash('Edited succesfuly!')
+                return redirect('/')
+            
         return render_template('edititem.html',form=form)
     else:
         return 'Error loading #{id}'.format(id=id)
