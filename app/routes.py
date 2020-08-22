@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from app import app
 from flask import render_template,flash, redirect, request, url_for
-from app.forms import AddForm,SearchForm,RegistrationForm,LoginForm
+from app.forms import AddForm,SearchForm,RegistrationForm,LoginForm,EditForm
 from datetime import date,datetime
 from app.db_setup import init_db, db_session
 from app.models import Item, User
@@ -61,7 +61,7 @@ def index():
         items_all= current_user.items
         
         for i in items_all:
-            if i.day == date.today():
+            if i.day == date.today() and i.isold:
                 totaltoday+=i.price
                 count+=1
                 items.append(i)
@@ -91,7 +91,7 @@ def save_changes(item,form, new=False):
     if new:
         item.day=date.today()
     #item.numb=form.numb.data
-    item.isold=False
+    item.isold=False or form.isold.data
 
     if new:
         db.session.add(item)
@@ -111,7 +111,9 @@ def edit(id):
     qry=db.session.query(Item).filter(Item.id==id)
     items=qry.first()
     if items:
-        form = AddForm(formdata=request.form, obj=items)
+        form = EditForm(formdata=request.form, obj=items)
+        if request.method=='GET':
+            form.isold.data=items.isold
         if request.method=='POST':
             if request.form.get('delete'):
                 delete(id)
@@ -120,6 +122,7 @@ def edit(id):
             elif form.validate():
                 #save edited
                 save_changes(items,form)
+
                 flash('Edited succesfuly!')
                 return redirect('/')
             
