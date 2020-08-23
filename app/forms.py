@@ -32,6 +32,7 @@ class SearchForm(FlaskForm):
     ('Price','Price'),
     ('Date','Date')]
     select=SelectField(u'Search for:',choices=param_types)
+    only_sold=BooleanField('Sold')
     search=StringField(u'',validators=[DataRequired()])
     submit=SubmitField('Search')
 

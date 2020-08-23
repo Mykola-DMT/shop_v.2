@@ -154,7 +154,13 @@ def result(search):
     if search.data['search']=='':
         # qry=db.session.query(Item)
         # results=qry.all()
+        items=[]
         items=current_user.items
+        for i in items:
+            if search.data['only_sold']==i.isold or not search.data['only_sold']:
+                        results.append(i)
+        #results=current_user.items
+        count_in_date=len(results)
     else:
         select=search.data['select']
         items=[]
@@ -165,24 +171,29 @@ def result(search):
         for i in items:
             if select=='Type':
                 if i.typename == search_string:
-                    results.append(i)
-                    count_in_date += 1
+                    if search.data['only_sold']==i.isold or not search.data['only_sold']:
+                        results.append(i)
+                        count_in_date += 1
             elif select=='Name':
                 if i.itemname == search_string:
-                    results.append(i)
-                    count_in_date += 1
+                    if search.data['only_sold']==i.isold or not search.data['only_sold']:
+                        results.append(i)
+                        count_in_date += 1
             elif select=='Size':
                 if i.size_i==int(search_string):
-                    results.append(i)
-                    count_in_date += 1
+                    if search.data['only_sold']==i.isold or not search.data['only_sold']:
+                        results.append(i)
+                        count_in_date += 1
             elif select == 'Price':
                 if i.price == int(search_string):
-                    results.append(i)
-                    count_in_date += 1
+                    if search.data['only_sold']==i.isold or not search.data['only_sold']:
+                        results.append(i)
+                        count_in_date += 1
             elif select == 'Date':
                 if search_string in str(i.day):
-                    count_in_date += 1
-                    results.append(i)
+                    if search.data['only_sold']==i.isold or not search.data['only_sold']:
+                        count_in_date += 1
+                        results.append(i)
             # if i.Type==search_string:
             #     results.append(i)
     if not results:
