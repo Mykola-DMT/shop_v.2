@@ -88,10 +88,16 @@ def save_changes(item,form, new=False):
     item.size_i=form.size_i.data
     item.price=form.price.data
     item.author=current_user
-    if new:
-        item.day=date.today()
+    # if new:
+    #     item.day=date.today()
     #item.numb=form.numb.data
-    item.isold=False or form.isold.data
+    try:
+        item.isold=form.isold.data
+        if form.isold.data:
+            item.day=date.today()
+    except AttributeError:
+        item.isold=False
+    
 
     if new:
         db.session.add(item)
