@@ -15,7 +15,7 @@ def login():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
     form = LoginForm()
-    if request.method=='POST' and form.validate():
+    if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         
         if user is None or not user.check_password(form.password.data):
@@ -95,6 +95,8 @@ def save_changes(item,form, new=False):
         item.isold=form.isold.data
         if form.isold.data:
             item.day=date.today()
+        else:
+            item.day=None
     except AttributeError:
         item.isold=False
     
