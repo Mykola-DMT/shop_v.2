@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from app import app
 from flask import render_template,flash, redirect, request, url_for
+from werkzeug.urls import url_parse
 from app.forms import AddForm,SearchForm,RegistrationForm,LoginForm,EditForm
 from datetime import date,datetime
 from app.db_setup import init_db, db_session
@@ -22,10 +23,10 @@ def login():
             flash('Invalid username or password')
             return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
-        # next_page = request.args.get('next')
-        # if not next_page or url_parse(next_page).netloc != '':
-        #     next_page=url_for('index')
-        return redirect(url_for('index'))
+        next_page = request.args.get('next')
+        if not next_page or url_parse(next_page).netloc != '':
+            next_page=url_for('index')
+        return redirect(next_page)
     
     return render_template('login.html', form=form)
 
@@ -120,9 +121,9 @@ def edit(id):
     items=qry.first()
     if items:
         form = EditForm(formdata=request.form, obj=items)
-        if request.method=='GET':
-            form.isold.data=items.isold
-        if request.method=='POST':
+        if request.method == 'GET':
+            form.isold.data = items.isold
+        if request.method == 'POST':
             if request.form.get('delete'):
                 delete(id)
                 flash('Deleted succesfuly!')
