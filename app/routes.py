@@ -58,14 +58,17 @@ def index():
     count=0
     totaltoday = 0
     if current_user.is_authenticated:
-        # items=Item.query.filter(Item.day==today).all()
-        items_all= current_user.items
+        items=Item.query.filter(Item.day==today).all()
+        count = len(items)
+        for i in items:
+            totaltoday+=i.price
+        # items_all= current_user.items
         
-        for i in items_all:
-            if i.day == date.today() and i.isold:
-                totaltoday+=i.price
-                count+=1
-                items.append(i)
+        # for i in items_all:
+        #     if i.day == date.today() and i.isold:
+        #         totaltoday+=i.price
+        #         count+=1
+        #         items.append(i)
 
     table=Result(items)
     table.border = True
@@ -117,8 +120,13 @@ def delete(id):
 
 @app.route('/item/<int:id>', methods=['GET','POST'])
 def edit(id):
-    qry=db.session.query(Item).filter(Item.id==id)
-    items=qry.first()
+    #qry=db.session.query(Item).filter(Item.id==id)
+    #items=qry.first()
+    u_items = current_user.items
+    for i in u_items:
+        if i.id == id:
+            items = i 
+    
     if items:
         form = EditForm(formdata=request.form, obj=items)
         if request.method == 'GET':
@@ -127,13 +135,13 @@ def edit(id):
             if request.form.get('delete'):
                 delete(id)
                 flash('Deleted succesfuly!')
-                return redirect('/')
+                return redirect('/showitems')
             elif form.validate():
                 #save edited
                 save_changes(items,form)
 
                 flash('Edited succesfuly!')
-                return redirect('/')
+                return redirect('/showitems')
             
         return render_template('edititem.html',form=form)
     else:
